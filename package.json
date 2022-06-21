@@ -1,6 +1,6 @@
 {
   "name": "@samislam/switcher",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Switcher is a small powerful express middleware that allows for switching between different middleware stacks.",
   "main": "index.js",
   "scripts": {
