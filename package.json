@@ -30,5 +30,11 @@
     "@samislam/checktypes": "^1.0.1",
     "@samislam/log": "^1.1.4",
     "express": "^4.18.1"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false,
+    "tabWidth": 2,
+    "printWidth": 120
   }
 }

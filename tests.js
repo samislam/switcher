@@ -1,36 +1,36 @@
 /*=============================================
 =            importing dependencies            =
 =============================================*/
-const express = require("express");
-const log = require("@samislam/log");
+const express = require('express')
+const log = require('@samislam/log')
 
 /*=============================================
 =            importing modules            =
 =============================================*/
 
-const switcher = require("./index");
+const switcher = require('./index')
 /*=====  End of importing dependencies  ======*/
 
 /*=============================================
 =            pre-defined Middlewares            =
 =============================================*/
 const newLineMiddleware = (req, res, next) => {
-  log("------------------------------");
-  next();
-};
+  log('------------------------------')
+  next()
+}
 const sendResMiddleware = (req, res, next) => {
-  log.success("someMiddleware ran");
-  res.end();
-  next();
-};
+  log.success('someMiddleware ran')
+  res.end()
+  next()
+}
 
 const setUser = (req, res, next) => {
-  req.$loggedInUser = "admin";
-  next();
-};
+  req.$loggedInUser = 'admin'
+  next()
+}
 /*=====  End of pre-defined Middlewares  ======*/
 
-const app = express();
+const app = express()
 
 // ^ test #1
 // ? uncomment the following code block to test
@@ -266,25 +266,25 @@ const app = express();
 // ^ test #7
 // ? uncomment the following code block to test
 
-// app.route("/api").get(
-//   newLineMiddleware,
-//   setUser,
-//   switcher((req, res, next) => {
-//     if (req.$loggedInUser == "admin")
-//       return (req, res, next) => {
-//         log.i("/api -> switcher -> admin functional middleware");
-//         next();
-//       };
+app.route("/api").get(
+  newLineMiddleware,
+  setUser,
+  switcher((req, res, next) => {
+    if (req.$loggedInUser == "admin")
+      return (req, res, next) => {
+        log.i("/api -> switcher -> admin functional middleware");
+        next();
+      };
 
-//     if (req.$loggedInUser == "market")
-//       return (req, res, next) => {
-//         log.i("/api -> switcher -> market functional middleware");
-//         next();
-//       };
-//     next();
-//   }),
-//   sendResMiddleware
-// );
+    if (req.$loggedInUser == "market")
+      return (req, res, next) => {
+        log.i("/api -> switcher -> market functional middleware");
+        next();
+      };
+    next();
+  }),
+  sendResMiddleware
+);
 
-console.clear();
-app.listen(8921, () => log.info(log.label, "test listening on port 8921"));
+console.clear()
+app.listen(8921, () => log.info(log.label, 'test listening on port 8921'))
