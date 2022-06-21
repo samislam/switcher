@@ -6,6 +6,10 @@
   "scripts": {
     "test": "node tests.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samislam/switcher.git"
+  },
   "keywords": [
     "express",
     "switcher",
@@ -17,5 +21,9 @@
     "expressjs"
   ],
   "author": "Islam Yamor",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samislam/switcher/issues"
+  },
+  "homepage": "https://github.com/samislam/switcher#readme"
 }
