@@ -8,7 +8,7 @@ const log = require('@samislam/log')
 =            importing modules            =
 =============================================*/
 
-const switcher = require('./index')
+const switcher = require('../index.js')
 /*=====  End of importing dependencies  ======*/
 
 /*=============================================
@@ -19,8 +19,8 @@ const newLineMiddleware = (req, res, next) => {
   next()
 }
 const sendResMiddleware = (req, res, next) => {
-  log.success('someMiddleware ran')
-  res.end()
+  log.success('sendResMiddleware ran')
+  res.end(`sendResMiddleware ran`)
   next()
 }
 
@@ -266,25 +266,70 @@ const app = express()
 // ^ test #7
 // ? uncomment the following code block to test
 
-app.route("/api").get(
+// app.route('/api').get(
+//   newLineMiddleware,
+//   setUser,
+//   switcher((req, res, next) => {
+//     if (req.$loggedInUser == 'admin')
+//       return (req, res, next) => {
+//         log.i('/api -> switcher -> admin functional middleware')
+//         next()
+//       }
+
+//     if (req.$loggedInUser == 'market')
+//       return (req, res, next) => {
+//         log.i('/api -> switcher -> market functional middleware')
+//         next()
+//       }
+//     next()
+//   }),
+//   sendResMiddleware
+// )
+
+// ^ test #8
+// ? uncomment the following code block to test
+
+app.route('/api').get(
   newLineMiddleware,
   setUser,
-  switcher((req, res, next) => {
-    if (req.$loggedInUser == "admin")
-      return (req, res, next) => {
-        log.i("/api -> switcher -> admin functional middleware");
-        next();
-      };
-
-    if (req.$loggedInUser == "market")
-      return (req, res, next) => {
-        log.i("/api -> switcher -> market functional middleware");
-        next();
-      };
-    next();
-  }),
+  switcher(
+    'vienna',
+    {
+      admin: [
+        (req, res, next) => {
+          log.i('/api -> switcher -> admin middleware #1')
+          next()
+        },
+        (req, res, next) => {
+          log.i('/api -> switcher -> admin middleware #2')
+          next()
+        },
+        (req, res, next) => {
+          log.i('/api -> switcher -> admin middleware #3')
+          next()
+        },
+      ],
+      market: [
+        (req, res, next) => {
+          log.i('/api -> switcher -> market middleware #1')
+          next()
+        },
+        (req, res, next) => {
+          log.i('/api -> switcher -> market middleware #2')
+          next()
+        },
+        (req, res, next) => {
+          log.i('/api -> switcher -> market middleware #3')
+          next()
+        },
+      ],
+    },
+    {
+      elseDefaults: false,
+    }
+  ),
   sendResMiddleware
-);
+)
 
 console.clear()
 app.listen(8921, () => log.info(log.label, 'test listening on port 8921'))

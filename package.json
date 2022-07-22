@@ -29,13 +29,14 @@
   "dependencies": {
     "@samislam/checktypes": "^1.0.1",
     "@samislam/log": "^1.1.4",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "lodash": "^4.17.21"
   },
   "prettier": {
     "singleQuote": true,
     "semi": false,
     "tabWidth": 2,
-    "printWidth": 120
+    "printWidth": 130
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
