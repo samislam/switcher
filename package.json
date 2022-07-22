@@ -4,7 +4,7 @@
   "description": "Switcher is a small powerful express middleware that allows for switching between different middleware stacks.",
   "main": "index.js",
   "scripts": {
-    "test": "node tests.js"
+    "test": "nodemon -q ./tests"
   },
   "repository": {
     "type": "git",
@@ -36,5 +36,8 @@
     "semi": false,
     "tabWidth": 2,
     "printWidth": 120
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
   }
 }
