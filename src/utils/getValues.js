@@ -5,14 +5,13 @@ async function getKey(key, req, res) {
   return userKey
 }
 async function getMiddlewareStacks(key, middlewareStacks, options, req, res, next) {
-  let userMiddlewareStacks
+  let userMiddlewareStacksValue
   if (checkTypes.isObject(middlewareStacks)) {
-    userMiddlewareStacks = middlewareStacks[key] || middlewareStacks[options.elseKeyword]
-    if (checkTypes.isUndefined(userMiddlewareStacks) && options.elseCallNext) userMiddlewareStacks = (req, res, next) => next()
+    userMiddlewareStacksValue = middlewareStacks[key] || middlewareStacks[options.elseKeyword]
+    if (checkTypes.isUndefined(userMiddlewareStacksValue)) userMiddlewareStacksValue = (req, res, next) => next()
   }
-
-  if (checkTypes.isAsycOrSyncFunc(middlewareStacks)) userMiddlewareStacks = await middlewareStacks(key, req, res, next)
-  return userMiddlewareStacks
+  if (checkTypes.isAsycOrSyncFunc(middlewareStacks)) userMiddlewareStacksValue = await middlewareStacks(key, req, res, next)
+  return userMiddlewareStacksValue
 }
 
 const getValue = async (parameter, ...args) => (checkTypes.isAsycOrSyncFunc(parameter) ? await parameter(...args) : parameter)

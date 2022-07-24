@@ -17,7 +17,6 @@ function switcher(key, middlewareStacks, options) {
       const chosenOptions = {}
       const defaultOptions = {
         elseKeyword: 'else',
-        elseCallNext: true,
       }
       _.merge(chosenOptions, defaultOptions, optionsValue)
       middlewareStacksValue = await getMiddlewareStacks(keyValue, middlewareStacks, chosenOptions, req, res, next)
