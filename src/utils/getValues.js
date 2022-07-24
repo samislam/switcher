@@ -1,3 +1,10 @@
+/*=============================================
+=            importing dependencies            =
+=============================================*/
+const checkTypes = require('@samislam/checktypes')
+
+/*=====  End of importing dependencies  ======*/
+
 async function getKey(key, req, res) {
   let userKey
   if (checkTypes.isString(key)) userKey = key
@@ -16,6 +23,7 @@ async function getMiddlewareStacks(key, middlewareStacks, options, req, res, nex
 
 const getValue = async (parameter, ...args) => (checkTypes.isAsycOrSyncFunc(parameter) ? await parameter(...args) : parameter)
 
+/*----------  end of code, exporting  ----------*/
 module.exports = {
   getKey,
   getMiddlewareStacks,
