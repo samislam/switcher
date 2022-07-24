@@ -2,27 +2,9 @@
 =            importing dependencies            =
 =============================================*/
 const checkTypes = require('@samislam/checktypes')
-/*=====  End of importing dependencies  ======*/
 const _ = require('lodash')
-
-async function getKey(key, req, res) {
-  let userKey
-  if (checkTypes.isString(key)) userKey = key
-  if (checkTypes.isAsycOrSyncFunc(key)) userKey = await key(req, res)
-  return userKey
-}
-async function getMiddlewareStacks(key, middlewareStacks, options, req, res, next) {
-  let userMiddlewareStacks
-  if (checkTypes.isObject(middlewareStacks)) {
-    userMiddlewareStacks = middlewareStacks[key] || middlewareStacks[options.elseKeyword]
-    if (checkTypes.isUndefined(userMiddlewareStacks) && options.elseDefaults) userMiddlewareStacks = (req, res, next) => next()
-  }
-
-  if (checkTypes.isAsycOrSyncFunc(middlewareStacks)) userMiddlewareStacks = await middlewareStacks(key, req, res, next)
-  return userMiddlewareStacks
-}
-
-const getValue = async (parameter, ...args) => (checkTypes.isAsycOrSyncFunc(parameter) ? await parameter(...args) : parameter)
+const { getKey, getMiddlewareStacks, getValue } = require('./utils/getValues')
+/*=====  End of importing dependencies  ======*/
 
 function switcher(key, middlewareStacks, options) {
   return async (req, res, next) => {
@@ -35,7 +17,7 @@ function switcher(key, middlewareStacks, options) {
       const chosenOptions = {}
       const defaultOptions = {
         elseKeyword: 'else',
-        elseDefaults: true,
+        elseCallNext: true,
       }
       _.merge(chosenOptions, defaultOptions, optionsValue)
       middlewareStacksValue = await getMiddlewareStacks(keyValue, middlewareStacks, chosenOptions, req, res, next)
@@ -43,7 +25,6 @@ function switcher(key, middlewareStacks, options) {
     // &@overload: (key: function)
     else middlewareStacksValue = await key(req, res, next)
 
-    // &@userMiddlewareStacks: function | [function]
     // execute based on the return values ---------------
     if (checkTypes.isAsycOrSyncFunc(middlewareStacksValue)) await middlewareStacksValue(req, res, next)
     if (checkTypes.isArray(middlewareStacksValue)) {

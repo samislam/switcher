@@ -8,7 +8,7 @@ const log = require('@samislam/log')
 =            importing modules            =
 =============================================*/
 
-const switcher = require('../index.js')
+const switcher = require('../src/index.js')
 /*=====  End of importing dependencies  ======*/
 
 /*=============================================
