@@ -3,11 +3,13 @@
 =============================================*/
 const checkTypes = require('@samislam/checktypes')
 const _ = require('lodash')
+const expressAsyncHandler = require('express-async-handler')
+
 const { getKey, getMiddlewareStacks, getValue } = require('./utils/getValues')
 /*=====  End of importing dependencies  ======*/
 
 function switcher(key, middlewareStacks, options) {
-  return async (req, res, next) => {
+  return expressAsyncHandler(async (req, res, next) => {
     let keyValue, middlewareStacksValue
     // getting the key & middlewareStacks values ---------------
     // &@overload: (key: string | function, middlewareStacks: object | function, options: object | function)
@@ -44,7 +46,7 @@ function switcher(key, middlewareStacks, options) {
         i++
       }
     }
-  }
+  })
 }
 
 /*----------  end of code, exporting  ----------*/
