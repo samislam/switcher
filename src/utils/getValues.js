@@ -13,9 +13,17 @@ async function getKey(key, req, res) {
 }
 async function getMiddlewareStacks(key, middlewareStacks, options, req, res, next) {
   let userMiddlewareStacksValue
-  if (checkTypes.isObject(middlewareStacks)) {
-    userMiddlewareStacksValue = middlewareStacks[key] || middlewareStacks[options.elseKeyword]
-    if (checkTypes.isUndefined(userMiddlewareStacksValue)) userMiddlewareStacksValue = (req, res, next) => next()
+  if (checkTypes.isObject(middlewareStacks) && checkTypes.isString(key)) {
+    userMiddlewareStacksValue = middlewareStacks[key]
+    if (!userMiddlewareStacksValue) {
+      const delimiterKey = '%$switch%'
+      for (const propKey of Object.keys(middlewareStacks)) {
+        const multiKeysSet = propKey.split(delimiterKey)
+        if (multiKeysSet.includes(key)) userMiddlewareStacksValue = middlewareStacks[propKey]
+      }
+    }
+    if (!userMiddlewareStacksValue) userMiddlewareStacksValue = middlewareStacks[options.elseKeyword]
+    if (!userMiddlewareStacksValue) userMiddlewareStacksValue = (req, res, next) => next()
   }
   if (checkTypes.isAsycOrSyncFunc(middlewareStacks)) userMiddlewareStacksValue = await middlewareStacks(key, req, res, next)
   return userMiddlewareStacksValue
