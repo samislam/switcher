@@ -391,61 +391,61 @@ const app = express()
 // ^ test #10
 // ? uncomment the following code block to test
 
-// app.route('/api').get(
-//   newLineMiddleware,
-//   setUser,
-//   switcher(
-//     'admin',
-//     {
-//       [multiKey('root', 'admin')]: [
-//         (req, res, next) => {
-//           log.i('/api -> switcher -> admin middleware #1')
-//           next()
-//         },
-//         (req, res, next) => {
-//           log.i('/api -> switcher -> admin middleware #2')
-//           next()
-//         },
-//         (req, res, next) => {
-//           log.i('/api -> switcher -> admin middleware #3')
-//           next()
-//         },
-//       ],
-//       market: [
-//         (req, res, next) => {
-//           log.i('/api -> switcher -> market middleware #1')
-//           next()
-//         },
-//         (req, res, next) => {
-//           log.i('/api -> switcher -> market middleware #2')
-//           next()
-//         },
-//         (req, res, next) => {
-//           log.i('/api -> switcher -> market middleware #3')
-//           next()
-//         },
-//       ],
-//       customElseKeyword: [
-//         (req, res, next) => {
-//           log.i('/api -> switcher -> else middleware #1')
-//           next()
-//         },
-//         (req, res, next) => {
-//           log.i('/api -> switcher -> else middleware #2')
-//           next()
-//         },
-//         (req, res, next) => {
-//           log.i('/api -> switcher -> else middleware #3')
-//           next()
-//         },
-//       ],
-//     },
-//     {
-//       elseKeyword: 'customElseKeyword',
-//     }
-//   ),
-//   sendResMiddleware
-// )
+app.route('/api').get(
+  newLineMiddleware,
+  setUser,
+  switcher(
+    'admin',
+    {
+      [multiKey(['root', 'admin'])]: [
+        (req, res, next) => {
+          log.i('/api -> switcher -> admin middleware #1')
+          next()
+        },
+        (req, res, next) => {
+          log.i('/api -> switcher -> admin middleware #2')
+          next()
+        },
+        (req, res, next) => {
+          log.i('/api -> switcher -> admin middleware #3')
+          next()
+        },
+      ],
+      market: [
+        (req, res, next) => {
+          log.i('/api -> switcher -> market middleware #1')
+          next()
+        },
+        (req, res, next) => {
+          log.i('/api -> switcher -> market middleware #2')
+          next()
+        },
+        (req, res, next) => {
+          log.i('/api -> switcher -> market middleware #3')
+          next()
+        },
+      ],
+      customElseKeyword: [
+        (req, res, next) => {
+          log.i('/api -> switcher -> else middleware #1')
+          next()
+        },
+        (req, res, next) => {
+          log.i('/api -> switcher -> else middleware #2')
+          next()
+        },
+        (req, res, next) => {
+          log.i('/api -> switcher -> else middleware #3')
+          next()
+        },
+      ],
+    },
+    {
+      elseKeyword: 'customElseKeyword',
+    }
+  ),
+  sendResMiddleware
+)
 
 // ^ test #10
 // ? uncomment the following code block to test
@@ -496,5 +496,5 @@ const app = express()
 //   sendResMiddleware
 // )
 
-console.clear()
+// console.clear()
 app.listen(8921, () => log.info(log.label, 'test listening on port 8921'))
